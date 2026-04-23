@@ -28,8 +28,9 @@
  a  s  d  |  ←  ↓  → 
 
 ## コンパイル
+UTF-8を入力文字セットとして使用するため、明示してコンパイルしてください。
 ```bash
-gcc -o skator skator.c
+gcc -finput-charset=UTF-8 skator.c
 ``` 
 
 ## 実行
