@@ -53,7 +53,10 @@
 
 #define LANG_JP 0
 #define LANG_EN 1
-#define T(jp, en) (lang == LANG_JP ? (jp) : (en))
+#define LANG_CH 2  // 中国語を追加
+#define LANG_FR 3  // フランス語を追加
+
+#define T(jp, en, ch, fr) (lang == LANG_JP ? (jp) : lang == LANG_EN ? (en) : lang == LANG_CH ? (ch) : (fr))
 
 
 // マップを表示するための関数
