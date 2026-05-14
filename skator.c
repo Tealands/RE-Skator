@@ -1336,6 +1336,24 @@ void player_move(int selected_map_grid[][X_SIZE], int *p_pos, int *step_num, int
     {
       *is_clear = 1;
     }
+    else if(selected_map_grid[p_pos[0]][p_pos[1]] == EMPT) // コースアウト
+    {
+      printf(T("コースアウトしました。\n", "You went out of bounds.\n", "您已超出赛道范围。\n", "Vous êtes sorti du parcours.\n"));
+
+      int i, j;
+      for(i = 0; i < Y_SIZE; i++)
+      {
+        for(j = 0; j < X_SIZE; j++)
+        {
+          if(selected_map_grid[i][j] == STAR)
+          {
+            p_pos[0] = i;
+            p_pos[1] = j;
+          }
+        }
+      }
+      print_map(selected_map_grid, p_pos);
+    }
   }
 
 }
