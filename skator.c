@@ -53,7 +53,10 @@
 
 #define LANG_JP 0
 #define LANG_EN 1
-#define T(jp, en) (lang == LANG_JP ? (jp) : (en))
+#define LANG_CH 2  // 中国語を追加
+#define LANG_FR 3  // フランス語を追加
+
+#define T(jp, en, ch, fr) (lang == LANG_JP ? (jp) : lang == LANG_EN ? (en) : lang == LANG_CH ? (ch) : (fr))
 
 
 // マップを表示するための関数
@@ -70,7 +73,7 @@ void title_scene(int lang)
   printf("==============\n\n");
   printf("    SKATER      \n\n");
   printf("==============\n\n");
-  printf(T("エンターキーを押してください", "Press Enter key"));
+  printf(T("エンターキーを押してください", "Press Enter key", "請按回車鍵。", "Veuillez appuyer sur la touche Entrée."));
 
   getchar();
 
@@ -122,19 +125,19 @@ void doing_tutorial(int lang)
   int is_clear = 0;
   int step_num = 0;
 
-  printf(T("=====  遊び方  =====\n", "=====  How to Play  =====\n"));
+  printf(T("=====  遊び方  =====\n", "=====  How to Play  =====\n", "=====  游戏方法  =====\n", "=====  Comment jouer  =====\n"));
   getchar();
   printf("\n");
-  printf(T("プレイヤー(P)のあなたは、スタートからゴール(G)を目指します", "You are the player (P). Reach the goal (G) from the start."));
+  printf(T("プレイヤー(P)のあなたは、スタートからゴール(G)を目指します", "You are the player (P). Reach the goal (G) from the start.", "你是玩家（P），从起点出发，前往终点（G）。", "Vous êtes le joueur (P). Atteignez le but (G) depuis le départ."));
   getchar();
   printf("\n");
-  printf(T("プレイヤーは何もない(-)方向に一度進んだら、壁(W)かゴールに当たるまで止まれません", "Once you move toward a road (-), you cannot stop until hitting a wall (W) or goal (G)."));
+  printf(T("プレイヤーは何もない(-)方向に一度進んだら、壁(W)かゴールに当たるまで止まれません", "Once you move toward a road (-), you cannot stop until hitting a wall (W) or goal (G).", "玩家一旦向空地（-）方向移动，直到碰到墙壁（W）或终点才能停下。", "Une fois que vous vous déplacez vers une route (-), vous ne pouvez pas vous arrêter avant de toucher un mur (W) ou le but (G)."));
   getchar();
   printf("\n");
-  printf(T("移動はwasdキーとエンターキーで行います\n\n", "Move using wasd keys + Enter.\n\n"));
+  printf(T("移動は[w],[a],[s],[d]キーとエンターキーで行います\n\n", "Move using [w],[a],[s],[d] keys + Enter.\n\n", "使用[w],[a],[s],[d]键和回车键移动。\n\n", "Déplacez-vous avec les touches [w],[a],[s],[d] + Entrée.\n\n"));
   printf("    w     |     ↑    \n");
   printf(" a  s  d  |  ←  ↓  → \n\n");
-  printf(T("wasdキーのいずれかを入力して、エンターキーを入力\n\n", "Press one of wasd keys, then press Enter.\n\n"));
+  printf(T("[w],[a],[s],[d]キーのいずれかを入力して、エンターキーを入力\n\n", "Press one of [w],[a],[s],[d] keys, then press Enter.\n\n", "按下[w],[a],[s],[d]键之一，然后按回车键。\n\n", "Appuyez sur une touche [w],[a],[s],[d], puis sur Entrée.\n\n"));
   getchar();
 
   // プレイヤーの入力を受け付けて、プレイヤーを進めたり、
@@ -159,13 +162,13 @@ void doing_tutorial(int lang)
     }
 
     if(i == 1)
-      printf(T("ジャンプマス(\x1b[33m J \x1b[39m)は1マス先の壁を飛び越えられます\n\n", "Jump tile (\x1b[33m J \x1b[39m) lets you jump over the next wall.\n\n"));
+      printf(T("ジャンプマス(\x1b[33m J \x1b[39m)は1マス先の壁を飛び越えられます\n\n", "Jump tile (\x1b[33m J \x1b[39m) lets you jump over the next wall.\n\n", "跳跃格（\x1b[33m J \x1b[39m）可以飞越前方一格的墙壁。\n\n", "La case saut (\x1b[33m J \x1b[39m) vous permet de sauter par-dessus le mur suivant.\n\n"));
     if(i == 2)
-      printf(T("ワープマス(\x1b[41m[1]\x1b[49m)は同じワープマスにワープします\n\n", "Warp tile (\x1b[41m[1]\x1b[49m) warps you to the matching warp tile.\n\n"));
+      printf(T("ワープマス(\x1b[41m[1]\x1b[49m)は同じワープマスにワープします\n\n", "Warp tile (\x1b[41m[1]\x1b[49m) warps you to the matching warp tile.\n\n", "传送格（\x1b[41m[1]\x1b[49m）会传送到相同编号的传送格。\n\n", "La case téléportation (\x1b[41m[1]\x1b[49m) vous téléporte à la case correspondante.\n\n"));
     if(i == 3)
-      printf(T("ベルトコンベアマス(\x1b[36m ^ < v > \x1b[39m)は矢印の向きに吹っ飛びます\n\n", "Conveyor tile (\x1b[36m ^ < v > \x1b[39m) launches you in the arrow direction.\n\n"));
+      printf(T("ベルトコンベアマス(\x1b[36m ^ < v > \x1b[39m)は矢印の向きに吹っ飛びます\n\n", "Conveyor tile (\x1b[36m ^ < v > \x1b[39m) launches you in the arrow direction.\n\n", "传送带格（\x1b[36m ^ < v > \x1b[39m）会将你弹向箭头方向。\n\n", "La case tapis roulant (\x1b[36m ^ < v > \x1b[39m) vous propulse dans la direction de la flèche.\n\n"));
     if(i == 4)
-      printf(T("カギドア(\x1b[33m\x1b[45m|x|\x1b[39m\x1b[49m)はカギ(\x1b[33mx-o\x1b[39m)があれば開きます\n\n", "Key door (\x1b[33m\x1b[45m|x|\x1b[39m\x1b[49m) opens if you have a key (\x1b[33mx-o\x1b[39m).\n\n"));
+      printf(T("カギドア(\x1b[33m\x1b[45m|x|\x1b[39m\x1b[49m)はカギ(\x1b[33mx-o\x1b[39m)があれば開きます\n\n", "Key door (\x1b[33m\x1b[45m|x|\x1b[39m\x1b[49m) opens if you have a key (\x1b[33mx-o\x1b[39m).\n\n", "钥匙门（\x1b[33m\x1b[45m|x|\x1b[39m\x1b[49m）在持有钥匙（\x1b[33mx-o\x1b[39m）时可以打开。\n\n", "La porte à clé (\x1b[33m\x1b[45m|x|\x1b[39m\x1b[49m) s'ouvre si vous avez une clé (\x1b[33mx-o\x1b[39m).\n\n"));
 
     print_map(now_map_data, p_pos);
 
@@ -178,11 +181,11 @@ void doing_tutorial(int lang)
               (strcmp(input,"s") == 0) ||
               (strcmp(input,"d") == 0) ))
       {
-        printf(T("どちらに進みますか？ : ", "Which direction? : "));  scanf("%s", input);
+        printf(T("どちらに進みますか？ : ", "Which direction? : ", "请选择方向：", "Quelle direction ? : "));  scanf("%s", input);
       }
 
       {
-        // wasdのいずれかが入力されたら、とりあえず手数を+1する
+        // [w],[a],[s],[d]のいずれかが入力されたら、とりあえず手数を+1する
         // もし行き先が壁だったら、あとで+1した手数を-1する
         step_num++;
 
@@ -190,7 +193,7 @@ void doing_tutorial(int lang)
         int line_gap = 0;
         int row_gap = 0;
 
-        // wasdのどれかによって、どっちに1移動するのかを変える
+        // [w],[a],[s],[d]のどれかによって、どっちに1移動するのかを変える
         if(strcmp(input,"w") == 0)  line_gap = -1;
         if(strcmp(input,"a") == 0)  row_gap = -1;
         if(strcmp(input,"s") == 0)  line_gap = 1;
@@ -199,9 +202,9 @@ void doing_tutorial(int lang)
         player_move(now_map_data, p_pos, &step_num, &is_clear, line_gap, row_gap, is_walking, &key_num, &is_having_sord, lang);
 
         if(key_num != 0)
-          printf(T("   アイテム : \x1b[33mx-o\x1b[39m %dつ\n", "   Item: \x1b[33mx-o\x1b[39m x%d\n"), key_num);
+          printf(T("   アイテム : \x1b[33mx-o\x1b[39m %dつ\n", "   Item: \x1b[33mx-o\x1b[39m x%d\n", "   道具：\x1b[33mx-o\x1b[39m %d个\n", "   Objet : \x1b[33mx-o\x1b[39m x%d\n"), key_num);
         if(is_having_sord == 1)
-          printf(T("   装    備   : \x1b[33m--+\x1b[39m\n", "   Equip: \x1b[33m--+\x1b[39m\n"));
+          printf(T("   装    備   : \x1b[33m--+\x1b[39m\n", "   Equip: \x1b[33m--+\x1b[39m\n", "   装    备   : \x1b[33m--+\x1b[39m\n", "   Équip. : \x1b[33m--+\x1b[39m\n"));
         if(key_num != 0 || is_having_sord == 1)
           printf("\n");
       }
@@ -210,13 +213,13 @@ void doing_tutorial(int lang)
     printf("\n\n");
   }
 
-  printf(T("実際のプレイでは、モンスター(\x1b[42m:_:\x1b[49m)とモンスターを倒す剣(\x1b[33m--+\x1b[39m)も出現するのでお楽しみください\n\n\n", "In the actual game, monsters (\x1b[42m:_:\x1b[49m) and a sword (\x1b[33m--+\x1b[39m) also appear. Enjoy!\n\n\n"));
+  printf(T("実際のプレイでは、モンスター(\x1b[42m:_:\x1b[49m)とモンスターを倒す剣(\x1b[33m--+\x1b[39m)も出現するのでお楽しみください\n\n\n", "In the actual game, monsters (\x1b[42m:_:\x1b[49m) and a sword (\x1b[33m--+\x1b[39m) also appear. Enjoy!\n\n\n", "实际游戏中，还会出现怪物（\x1b[42m:_:\x1b[49m）和击败怪物的剑（\x1b[33m--+\x1b[39m），请尽情享受吧！\n\n\n", "Dans le jeu réel, des monstres (\x1b[42m:_:\x1b[49m) et une épée (\x1b[33m--+\x1b[39m) apparaissent également. Amusez-vous !\n\n\n"));
   getchar();
-  printf(T("以上でチュートリアルを終了します\n", "Tutorial complete.\n"));
+  printf(T("以上でチュートリアルを終了します\n", "Tutorial complete.\n", "教程到此结束。\n", "Le tutoriel est terminé.\n"));
   getchar();
-  printf(T("この度はチュートリアルをご覧いただきありがとうございました!\n", "Thank you for completing the tutorial!\n"));
+  printf(T("この度はチュートリアルをご覧いただきありがとうございました!\n", "Thank you for completing the tutorial!\n", "感谢您完成本教程！\n", "Merci d'avoir suivi le tutoriel !\n"));
   getchar();
-  printf(T("マップ選択に進みます\n\n\n", "Proceeding to map selection.\n\n\n"));
+  printf(T("マップ選択に進みます\n\n\n", "Proceeding to map selection.\n\n\n", "进入地图选择。\n\n\n", "Passage à la sélection de la carte.\n\n\n"));
   getchar();
 
 }
@@ -224,7 +227,7 @@ void doing_tutorial(int lang)
 // マップ番号をタイトルで表示する
 void print_playable_map(int *map_clear_holder, int lang)
 {
-  printf(T(" ==== マップ番号 ====\n\n", " ==== Map Number ====\n\n"));
+  printf(T(" ==== マップ番号 ====\n\n", " ==== Map Number ====\n\n", " ==== 地图编号 ====\n\n", " ==== Numéro de carte ====\n\n"));
 
   int i; 
   for(i = 0; i < MAX_MAP_NUM; i++)
@@ -962,7 +965,7 @@ void print_monster(int monster_num, int lang)
   switch (monster_num)
   {
   case MON1:
-    printf(T("              モンスター1\n", "              Monster 1\n"));
+    printf(T("              モンスター1\n", "              Monster 1\n", "              怪物1\n", "              Monstre 1\n"));
     printf("                _______     \n");
     printf("             __|\x1b[42m       \x1b[49m|__  \n");
     printf("            |\x1b[42m  | ・ ・ |  \x1b[49m| \n");
@@ -972,7 +975,7 @@ void print_monster(int monster_num, int lang)
     printf("          |\x1b[42m                 \x1b[49m|\n");
     break;
   case MON2:
-    printf(T("              モンスター2\n", "              Monster 2\n"));
+    printf(T("              モンスター2\n", "              Monster 2\n", "              怪物2\n", "              Monstre 2\n"));
     printf("\x1b[31m                _______     \n");
     printf("             __|\x1b[47m       \x1b[49m|__  \n");
     printf("            |\x1b[47m  | ・ ・ |  \x1b[49m| \n");
@@ -994,13 +997,13 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
 
   printf("\n=====================================================\n\n");
 
-  printf(T("モンスターに衝突した！\n\n", "You encountered a monster!\n\n"));
+  printf(T("モンスターに衝突した！\n\n", "You encountered a monster!\n\n", "与怪物相遇！\n\n", "Vous avez rencontré un monstre !\n\n"));
   getchar();
 
   if(is_having_sord == 1)
   {
     p_attack += 9;
-    printf(T("剣を装備しているので攻撃力が 9 上がった!\n", "Sword equipped: ATK +9!\n"));
+    printf(T("剣を装備しているので攻撃力が 9 上がった!\n", "Sword equipped: ATK +9!\n", "装备了剑，攻击力提升了9！\n", "Épée équipée : ATQ +9 !\n"));
     getchar();
   }
 
@@ -1015,35 +1018,35 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
     print_monster(monster_num, lang);
 
     printf("               HP  : %d / %d\n", m_hp, max_m_hp);
-    printf(T("               攻撃: %d\n\n\n", "               ATK : %d\n\n\n"), m_attack);
+    printf(T("               攻撃: %d\n\n\n", "               ATK : %d\n\n\n", "               攻击: %d\n\n\n", "               ATQ : %d\n\n\n"), m_attack);
 
-    printf(T("              あなた\n", "              You\n"));
+    printf(T("              あなた\n", "              You\n", "              你\n", "              Vous\n"));
     printf("               HP  : %d / %d\n", p_hp,max_p_hp);
-    printf(T("               攻撃: %d\n\n", "               ATK : %d\n\n"), p_attack);
+    printf(T("               攻撃: %d\n\n", "               ATK : %d\n\n", "               攻击: %d\n\n", "               ATQ : %d\n\n"), p_attack);
 
-    printf(T("行動順 : プレイヤー → モンスター\n\n", "Turn order: Player -> Monster\n\n"));
+    printf(T("行動順 : プレイヤー → モンスター\n\n", "Turn order: Player -> Monster\n\n", "行动顺序：玩家 → 怪物\n\n", "Ordre de jeu : Joueur -> Monstre\n\n"));
 
-    printf(T("===== 何をする？(数字を入力してください) =====\n\n", "===== What will you do? (enter a number) =====\n\n"));
-    printf(T(" 攻撃(現在の攻撃力で攻撃) : 1\n 特技(特技一覧に移ります) : 2\n 逃げる : 9\n\n", " Attack (use current ATK) : 1\n Special (see skill list) : 2\n Run away : 9\n\n"));
+    printf(T("===== 何をする？(数字を入力してください) =====\n\n", "===== What will you do? (enter a number) =====\n\n", "===== 你要做什么？（请输入数字）=====\n\n", "===== Que faites-vous ? (entrez un nombre) =====\n\n"));
+    printf(T(" 攻撃(現在の攻撃力で攻撃) : 1\n 特技(特技一覧に移ります) : 2\n 逃げる : 9\n\n", " Attack (use current ATK) : 1\n Special (see skill list) : 2\n Run away : 9\n\n", " 攻击（以当前攻击力攻击）：1\n 特技（显示特技列表）：2\n 逃跑：9\n\n", " Attaque (utiliser ATQ actuelle) : 1\n Spécial (voir liste de compétences) : 2\n Fuir : 9\n\n"));
 
     while (!((strcmp(input,"1") == 0) || (strcmp(input,"2") == 0) || (strcmp(input,"9") == 0) ))
     {
       is_selected_modoru = 0;
 
-      printf(T(" 番号入力 : ", " Enter number: "));
+      printf(T(" 番号入力 : ", " Enter number: ", " 请输入编号：", " Entrez un numéro : "));
       scanf("%s", input);
 
       if((strcmp(input,"1") != 0) && (strcmp(input,"2") != 0) && (strcmp(input,"9") != 0))
-        printf(T("不正な値を入力している場合じゃないです", "Invalid input"));
+        printf(T("不正な値を入力している場合じゃないです", "Invalid input", "请勿输入无效值", "Entrée invalide"));
 
       printf("\n\n");
     }
 
     if(strcmp(input,"1") == 0)
     {
-      printf(T("あなたの攻撃\n\n", "Your attack!\n\n"));
+      printf(T("あなたの攻撃\n\n", "Your attack!\n\n", "你的攻击\n\n", "Votre attaque !\n\n"));
       getchar();
-      printf(T("モンスターに %d のダメージ!\n", "Dealt %d damage to the monster!\n"), p_attack);
+      printf(T("モンスターに %d のダメージ!\n", "Dealt %d damage to the monster!\n", "对怪物造成了 %d 点伤害！\n", "Vous infligez %d dégâts au monstre !\n"), p_attack);
       getchar();
       m_hp -= p_attack;
       if(m_hp < 0)
@@ -1052,39 +1055,39 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
 
     if(strcmp(input,"2") == 0)
     {
-      printf(T("===== 特技を選んでください(数字を入力してください) =====\n\n", "===== Choose a skill (enter a number) =====\n\n"));
-      printf(T(" 肉体強化(バトル中の攻撃力を5上げます) : 1\n", " Power Up (ATK +5 for this battle) : 1\n"));
-      printf(T(" 捨て身(現在の攻撃力に +5 して攻撃します。ただし、4のダメージを受けます) : 2\n", " All Out (attack with ATK+5, but take 4 damage) : 2\n"));
-      printf(T(" 手当て(自分のHPを 10 回復します) : 3\n\n", " Heal (recover 10 HP) : 3\n\n"));
-      printf(T(" 戻る : 9\n\n", " Back : 9\n\n"));
+      printf(T("===== 特技を選んでください(数字を入力してください) =====\n\n", "===== Choose a skill (enter a number) =====\n\n", "===== 请选择特技（请输入数字）=====\n\n", "===== Choisissez une compétence (entrez un nombre) =====\n\n"));
+      printf(T(" 肉体強化(バトル中の攻撃力を5上げます) : 1\n", " Power Up (ATK +5 for this battle) : 1\n", " 强化（战斗中攻击力提升5）：1\n", " Puissance (ATQ +5 pour ce combat) : 1\n"));
+      printf(T(" 捨て身(現在の攻撃力に +5 して攻撃します。ただし、4のダメージを受けます) : 2\n", " All Out (attack with ATK+5, but take 4 damage) : 2\n", " 拼死一搏（以当前攻击力+5攻击，但受到4点伤害）：2\n", " Tout donner (attaque avec ATQ+5, mais subit 4 dégâts) : 2\n"));
+      printf(T(" 手当て(自分のHPを 10 回復します) : 3\n\n", " Heal (recover 10 HP) : 3\n\n", " 治疗（恢复自己的HP 10点）：3\n\n", " Soin (récupérer 10 PV) : 3\n\n"));
+      printf(T(" 戻る : 9\n\n", " Back : 9\n\n", " 返回：9\n\n", " Retour : 9\n\n"));
 
       while (!((strcmp(skill_input,"1") == 0) || (strcmp(skill_input,"2") == 0) || (strcmp(skill_input,"3") == 0) || (strcmp(skill_input,"9") == 0) ))
       {
-        printf(T(" 番号入力 : ", " Enter number: "));
+        printf(T(" 番号入力 : ", " Enter number: ", " 请输入编号：", " Entrez un numéro : "));
         scanf("%s", skill_input);
 
         if((strcmp(skill_input,"1") != 0) && (strcmp(skill_input,"2") != 0) && (strcmp(skill_input,"3") == 0) && (strcmp(skill_input,"9") != 0))
-          printf(T("不正な値を入力している場合じゃないです", "Invalid input"));
+          printf(T("不正な値を入力している場合じゃないです", "Invalid input", "请勿输入无效值", "Entrée invalide"));
 
         printf("\n\n");
       }
 
       if(strcmp(skill_input,"1") == 0)
       {
-        printf(T("あなたは自分は強いと信じた\n\n", "You believed in your own strength.\n\n"));
+        printf(T("あなたは自分は強いと信じた\n\n", "You believed in your own strength.\n\n", "你相信自己是强大的。\n\n", "Vous avez cru en votre propre force.\n\n"));
         getchar();
-        printf(T("あなたの攻撃力が 5 上がった\n", "Your ATK increased by 5.\n"));
+        printf(T("あなたの攻撃力が 5 上がった\n", "Your ATK increased by 5.\n", "你的攻击力提升了5。\n", "Votre ATQ a augmenté de 5.\n"));
         getchar();
         p_attack += 5;
       }
 
       if(strcmp(skill_input,"2") == 0)
       {
-        printf(T("あなたは捨て身で攻撃をした!\n\n", "You attacked with everything you had!\n\n"));
+        printf(T("あなたは捨て身で攻撃をした!\n\n", "You attacked with everything you had!\n\n", "你拼死一搏进行了攻击！\n\n", "Vous avez attaqué avec tout ce que vous aviez !\n\n"));
         getchar();
-        printf(T("モンスターに %d のダメージ!\n", "Dealt %d damage to the monster!\n"), p_attack + 5);
+        printf(T("モンスターに %d のダメージ!\n", "Dealt %d damage to the monster!\n", "对怪物造成了 %d 点伤害！\n", "Vous infligez %d dégâts au monstre !\n"), p_attack + 5);
         getchar();
-        printf(T("反動であなたに 4 のダメージ!\n", "Recoil! You take 4 damage!\n"));
+        printf(T("反動であなたに 4 のダメージ!\n", "Recoil! You take 4 damage!\n", "反作用力使你受到了4点伤害！\n", "Recul ! Vous subissez 4 dégâts !\n"));
         getchar();
 
         m_hp -=  ( p_attack + 5 );
@@ -1096,11 +1099,11 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
 
         if(p_hp == 0)
         {
-          printf(T("あなたはモンスターに負けました\n\n", "You were defeated by the monster.\n\n"));
+          printf(T("あなたはモンスターに負けました\n\n", "You were defeated by the monster.\n\n", "你被怪物打败了。\n\n", "Vous avez été vaincu par le monstre.\n\n"));
           getchar();
           if(is_having_sord == 0)
           {
-            printf(T("武器を探してきてから戦おう\n\n", "Try finding a weapon before fighting.\n\n"));
+            printf(T("武器を探してきてから戦おう\n\n", "Try finding a weapon before fighting.\n\n", "先找武器再战吧。\n\n", "Trouvez une arme avant de combattre.\n\n"));
             getchar();
           }
 
@@ -1118,14 +1121,14 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
 
         if(recover_hp == 0)
         {
-          printf(T("HPは満タンです\n\n", "HP is already full.\n\n"));
+          printf(T("HPは満タンです\n\n", "HP is already full.\n\n", "HP已满。\n\n", "Les PV sont déjà au maximum.\n\n"));
           getchar();
           break;
         }
 
-        printf(T("あなたは痛くないと思い込んだ\n\n", "You convinced yourself it doesn't hurt.\n\n"));
+        printf(T("あなたは痛くないと思い込んだ\n\n", "You convinced yourself it doesn't hurt.\n\n", "你说服了自己不痛。\n\n", "Vous vous êtes convaincu que ça ne fait pas mal.\n\n"));
         getchar();
-        printf(T("あなたのHPは %d 回復した\n", "You recovered %d HP.\n"), recover_hp);
+        printf(T("あなたのHPは %d 回復した\n", "You recovered %d HP.\n", "你恢复了 %d 点HP。\n", "Vous récupérez %d PV.\n"), recover_hp);
         getchar();
 
         p_hp += recover_hp;
@@ -1140,7 +1143,7 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
 
     if(strcmp(input,"9") == 0)
     {
-      printf(T("あなたは逃げ出した...\n", "You ran away...\n"));
+      printf(T("あなたは逃げ出した...\n", "You ran away...\n", "你逃跑了……\n", "Vous avez fui...\n"));
       getchar();
       getchar();
 
@@ -1149,9 +1152,9 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
 
     if(m_hp > 0)
     {
-      printf(T("モンスターの攻撃\n", "Monster attacks!\n"));
+      printf(T("モンスターの攻撃\n", "Monster attacks!\n", "怪物的攻击\n", "Le monstre attaque !\n"));
       getchar();
-      printf(T("あなたに %d のダメージ!\n", "You took %d damage!\n"), m_attack);
+      printf(T("あなたに %d のダメージ!\n", "You took %d damage!\n", "你受到了 %d 点伤害！\n", "Vous subissez %d dégâts !\n"), m_attack);
       getchar();
       p_hp -= m_attack;
       if(p_hp < 0)
@@ -1164,9 +1167,9 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
   
   if(m_hp == 0)
   {
-    printf(T("モンスターを倒した!!!\n", "Monster defeated!!!\n"));
+    printf(T("モンスターを倒した!!!\n", "Monster defeated!!!\n", "击败了怪物！！！\n", "Monstre vaincu !!!\n"));
     getchar();
-    printf(T("あなたはよい経験をした!\n", "You gained valuable experience!\n"));
+    printf(T("あなたはよい経験をした!\n", "You gained valuable experience!\n", "你获得了宝贵的经验！\n", "Vous avez acquis une expérience précieuse !\n"));
     getchar();
 
     printf("=====================================================\n\n");
@@ -1174,11 +1177,11 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
   }
   else if(p_hp == 0)
   {
-    printf(T("あなたはモンスターに負けました\n\n", "You were defeated by the monster.\n\n"));
+    printf(T("あなたはモンスターに負けました\n\n", "You were defeated by the monster.\n\n", "你被怪物打败了。\n\n", "Vous avez été vaincu par le monstre.\n\n"));
     getchar();
     if(is_having_sord == 0)
     {
-      printf(T("武器を探してきてから戦おう\n\n", "Try finding a weapon before fighting.\n\n"));
+      printf(T("武器を探してきてから戦おう\n\n", "Try finding a weapon before fighting.\n\n", "先找武器再战吧。\n\n", "Trouvez une arme avant de combattre.\n\n"));
       getchar();
     }
     
@@ -1192,12 +1195,12 @@ void player_move(int selected_map_grid[][X_SIZE], int *p_pos, int *step_num, int
 {
   if(selected_map_grid[p_pos[0] + line_gap][p_pos[1] + row_gap] == WALL && is_walking == 0) // 最初に向いた方向が壁
   {
-    printf(T("そっちは壁です\n", "That direction is a wall.\n"));
+    printf(T("そっちは壁です\n", "That direction is a wall.\n", "那个方向是墙。\n", "Cette direction est un mur.\n"));
     (*step_num)--;
   }
   else if(selected_map_grid[p_pos[0] + line_gap][p_pos[1] + row_gap] == DOOR && *key_num == 0) // 鍵ドア（鍵なし）
   {
-    printf(T("ドアにはカギ(\x1b[33mx-o\x1b[39m)がかかっています\n", "The door is locked. You need a key (\x1b[33mx-o\x1b[39m).\n"));
+    printf(T("ドアにはカギ(\x1b[33mx-o\x1b[39m)がかかっています\n", "The door is locked. You need a key (\x1b[33mx-o\x1b[39m).\n", "门上了锁。你需要钥匙（\x1b[33mx-o\x1b[39m）。\n", "La porte est verrouillée. Vous avez besoin d'une clé (\x1b[33mx-o\x1b[39m).\n"));
     if(is_walking == 0)
       (*step_num)--;
   }
@@ -1369,17 +1372,23 @@ int main()
 
   {
     char lang_input[64] = {0};
-    printf("言語選択 / Language Selection\n");
+    printf("言語選択 / Language Selection / 语言选择 / Sélection de langue\n");
     printf("  日本語 : 1\n");
     printf("  English : 2\n");
-    while (!((strcmp(lang_input,"1") == 0) || (strcmp(lang_input,"2") == 0)))
+    printf("  中文 : 3\n");
+    printf("  Français : 4\n");
+    while (!((strcmp(lang_input,"1") == 0) || (strcmp(lang_input,"2") == 0) || (strcmp(lang_input,"3") == 0) || (strcmp(lang_input,"4") == 0)))
     {
-      printf("  Input / 入力 : ");
+      printf("  Input / 入力 / 输入 / Entrée : ");
       scanf("%s", lang_input);
       printf("\n");
     }
     if(strcmp(lang_input,"2") == 0)
       lang = LANG_EN;
+    if(strcmp(lang_input,"3") == 0)
+      lang = LANG_CH;
+    if(strcmp(lang_input,"4") == 0)
+      lang = LANG_FR;
   }
 
   while (is_playing)
@@ -1393,16 +1402,16 @@ int main()
 
       char input[64] = {0};
 
-      printf(T("===== 何をする？(数字を入力してください) =====\n\n", "===== What will you do? (enter a number) =====\n\n"));
-      printf(T(" チュートリアル(遊び方) : 1\n マップ選択 : 2\n 終了 : 3\n\n", " Tutorial (How to play) : 1\n Map selection : 2\n Quit : 3\n\n"));
+      printf(T("===== 何をする？(数字を入力してください) =====\n\n", "===== What will you do? (enter a number) =====\n\n", "===== 你要做什么？（请输入数字）=====\n\n", "===== Que faites-vous ? (entrez un nombre) =====\n\n"));
+      printf(T(" チュートリアル(遊び方) : 1\n マップ選択 : 2\n 終了 : 3\n\n", " Tutorial (How to play) : 1\n Map selection : 2\n Quit : 3\n\n", " 教程（游戏方法）：1\n 地图选择：2\n 退出：3\n\n", " Tutoriel (Comment jouer) : 1\n Sélection de carte : 2\n Quitter : 3\n\n"));
 
       while (!((strcmp(input,"1") == 0) || (strcmp(input,"2") == 0) || (strcmp(input,"3") == 0) ))
       {
-        printf(T(" 番号入力 : ", " Enter number: "));
+        printf(T(" 番号入力 : ", " Enter number: ", " 请输入编号：", " Entrez un numéro : "));
         scanf("%s", input);
 
         if((strcmp(input,"1") != 0) && (strcmp(input,"2") != 0) && (strcmp(input,"3") != 0))
-          printf(T("不正な値を入力しないでください", "Invalid input"));
+          printf(T("不正な値を入力しないでください", "Invalid input", "请勿输入无效值", "Entrée invalide"));
 
         printf("\n\n");
       }
@@ -1422,20 +1431,20 @@ int main()
           char *error_pos;
           do
           {
-            printf(T("遊びたいマップの番号を選択してください : ", "Select map number: "));
+            printf(T("遊びたいマップの番号を選択してください : ", "Select map number: ", "请选择要玩的地图编号：", "Sélectionnez le numéro de la carte : "));
             scanf("%s", input);
             printf("\n");
             selected_map_num = strtol(input, &error_pos, 10);
             if(*error_pos != '\0')
             {
-              printf(T("不正な値を入力しないでください\n", "Invalid input\n"));
+              printf(T("不正な値を入力しないでください\n", "Invalid input\n", "请勿输入无效值\n", "Entrée invalide\n"));
             }
           } while (*error_pos != '\0');
         }
       }
       else if(strcmp(input,"3") == 0)
       {
-        printf(T("ゲームを終了します\n\n", "Exiting the game.\n\n"));
+        printf(T("ゲームを終了します\n\n", "Exiting the game.\n\n", "游戏结束。\n\n", "Fin du jeu.\n\n"));
         exit(0);
       }
       else
@@ -1456,13 +1465,13 @@ int main()
         char *error_pos;
         do
         {
-          printf(T("遊びたいマップの番号を選択してください : ", "Select map number: "));
+          printf(T("遊びたいマップの番号を選択してください : ", "Select map number: ", "请选择要玩的地图编号：", "Sélectionnez le numéro de la carte : "));
           scanf("%s", input);
           printf("\n");
           selected_map_num = strtol(input, &error_pos, 10);
           if(*error_pos != '\0')
           {
-            printf(T("不正な値を入力しないでください\n", "Invalid input\n"));
+            printf(T("不正な値を入力しないでください\n", "Invalid input\n", "请勿输入无效值\n", "Entrée invalide\n"));
           }
         } while ((*error_pos) != '\0');
       }
@@ -1475,11 +1484,11 @@ int main()
 
     step_num = 0;
 
-    printf(T("======  操作方法  ======\n\n", "======  Controls  ======\n\n"));
+    printf(T("======  操作方法  ======\n\n", "======  Controls  ======\n\n", "======  操作方法  ======\n\n", "======  Contrôles  ======\n\n"));
     printf("     w     |     ↑    \n");
     printf("  a  s  d  |  ←  ↓  → \n\n");
-    printf(T("  r : リトライ\n", "  r : Retry\n"));
-    printf(T("  q : ステージ選択に戻る\n\n", "  q : Back to stage select\n\n"));
+    printf(T("  r : リトライ\n", "  r : Retry\n", "  r : 重试\n", "  r : Réessayer\n"));
+    printf(T("  q : ステージ選択に戻る\n\n", "  q : Back to stage select\n\n", "  q : 返回关卡选择\n\n", "  q : Retour à la sélection de stage\n\n"));
     printf("========================\n\n");
 
     print_map(selected_map_data, p_pos);
@@ -1503,7 +1512,7 @@ int main()
               (strcmp(input,"r") == 0) ||
               (strcmp(input,"q") == 0)))
       {
-        printf(T("どちらに進みますか？ : ", "Which direction? : "));  scanf("%s", input);
+        printf(T("どちらに進みますか？ : ", "Which direction? : ", "请选择方向：", "Quelle direction ? : "));  scanf("%s", input);
       }
 
       if(strcmp(input,"r") == 0) /* r入力 */
@@ -1513,15 +1522,15 @@ int main()
         while(!((strcmp(yes_no,"y") == 0) || (strcmp(yes_no,"n") == 0)))
         {
           printf("\n");
-          printf(T("リトライしますか？\n", "Retry?\n"));
-          printf(T("y : はい  ||  n : いいえ\n", "y : Yes  ||  n : No\n"));
+          printf(T("リトライしますか？\n", "Retry?\n", "重试吗？\n", "Réessayer ?\n"));
+          printf(T("y : はい  ||  n : いいえ\n", "y : Yes  ||  n : No\n", "y : 是  ||  n : 否\n", "y : Oui  ||  n : Non\n"));
 
-          printf(T("入力 : ", "Input: "));  scanf("%s", yes_no);
+          printf(T("入力 : ", "Input: ", "输入：", "Entrée : "));  scanf("%s", yes_no);
 
           printf("\n");
 
           if(!(strcmp(yes_no,"y") == 0 || strcmp(yes_no,"n") == 0))
-            printf(T("不正な値を入力しないでください", "Invalid input"));
+            printf(T("不正な値を入力しないでください", "Invalid input", "请勿输入无效值", "Entrée invalide"));
 
           printf("\n");
         }
@@ -1530,10 +1539,10 @@ int main()
         {
           is_retrying = 1;
           printf("\n");
-          printf(T("リトライします\n\n", "Retrying.\n\n"));
+          printf(T("リトライします\n\n", "Retrying.\n\n", "重试中。\n\n", "Nouvel essai.\n\n"));
         }
         if(strcmp(yes_no,"n") == 0)
-          printf(T("ゲームに戻ります\n\n", "Back to game.\n\n"));
+          printf(T("ゲームに戻ります\n\n", "Back to game.\n\n", "返回游戏。\n\n", "Retour au jeu.\n\n"));
       }
       else if(strcmp(input,"q") == 0) /* q入力 */
       {
@@ -1542,15 +1551,15 @@ int main()
         while(!((strcmp(yes_no,"y") == 0) || (strcmp(yes_no,"n") == 0)))
         {
           printf("\n");
-          printf(T("タイトルに戻りますか？\n", "Return to title?\n"));
-          printf(T("y : はい  ||  n : いいえ\n", "y : Yes  ||  n : No\n"));
+          printf(T("タイトルに戻りますか？\n", "Return to title?\n", "返回标题吗？\n", "Retour au titre ?\n"));
+          printf(T("y : はい  ||  n : いいえ\n", "y : Yes  ||  n : No\n", "y : 是  ||  n : 否\n", "y : Oui  ||  n : Non\n"));
 
-          printf(T("入力 : ", "Input: "));  scanf("%s", yes_no);
+          printf(T("入力 : ", "Input: ", "输入：", "Entrée : "));  scanf("%s", yes_no);
 
           printf("\n");
 
           if(!(strcmp(yes_no,"y") == 0 || strcmp(yes_no,"n") == 0))
-            printf(T("不正な値を入力しないでください", "Invalid input"));
+            printf(T("不正な値を入力しないでください", "Invalid input", "请勿输入无效值", "Entrée invalide"));
 
           printf("\n");
         }
@@ -1559,14 +1568,14 @@ int main()
         {
           is_pose = 1;
           printf("\n");
-          printf(T("タイトルに戻ります\n\n", "Returning to title.\n\n"));
+          printf(T("タイトルに戻ります\n\n", "Returning to title.\n\n", "返回标题。\n\n", "Retour au titre.\n\n"));
         }
         if(strcmp(yes_no,"n") == 0)
-          printf(T("ゲームに戻ります\n\n", "Back to game.\n\n"));
+          printf(T("ゲームに戻ります\n\n", "Back to game.\n\n", "返回游戏。\n\n", "Retour au jeu.\n\n"));
       }
       else
       {
-        // wasdのいずれかが入力されたら、とりあえず手数を+1する
+        // [w],[a],[s],[d]のいずれかが入力されたら、とりあえず手数を+1する
         // もし行き先が壁だったら、あとで+1した手数を-1する
         step_num++;
 
@@ -1574,7 +1583,7 @@ int main()
         int line_gap = 0;
         int row_gap = 0;
 
-        // wasdのどれかによって、どっちに1移動するのかを変える
+        // [w],[a],[s],[d]のどれかによって、どっちに1移動するのかを変える
         if(strcmp(input,"w") == 0)  line_gap = -1;
         if(strcmp(input,"a") == 0)  row_gap = -1;
         if(strcmp(input,"s") == 0)  line_gap = 1;
@@ -1583,9 +1592,9 @@ int main()
         player_move(selected_map_data, p_pos, &step_num, &is_clear, line_gap, row_gap, is_walking, &key_num, &is_having_sord, lang);
 
         if(key_num != 0)
-          printf(T("   アイテム : \x1b[33mx-o\x1b[39m %dつ\n", "   Item: \x1b[33mx-o\x1b[39m x%d\n"), key_num);
+          printf(T("   アイテム : \x1b[33mx-o\x1b[39m %dつ\n", "   Item: \x1b[33mx-o\x1b[39m x%d\n", "   道具：\x1b[33mx-o\x1b[39m %d个\n", "   Objet : \x1b[33mx-o\x1b[39m x%d\n"), key_num);
         if(is_having_sord == 1)
-          printf(T("   装    備   : \x1b[33m--+\x1b[39m\n", "   Equip: \x1b[33m--+\x1b[39m\n"));
+          printf(T("   装    備   : \x1b[33m--+\x1b[39m\n", "   Equip: \x1b[33m--+\x1b[39m\n", "   装    备   : \x1b[33m--+\x1b[39m\n", "   Équip. : \x1b[33m--+\x1b[39m\n"));
         if(key_num != 0 || is_having_sord == 1)
           printf("\n");
       }
@@ -1598,11 +1607,11 @@ int main()
     {
       char input[64] = {0};
 
-      printf(T("クリアにかかった手数は %d手 です\n", "You cleared in %d moves.\n"), step_num);
-      printf(T("制作者がマップ%d をクリアするのにかけた手数は%d手 です\n", "The developer cleared Map %d in %d moves.\n"), selected_map_num, shotest_path_return(selected_map_num - 1));
+      printf(T("クリアにかかった手数は %d手 です\n", "You cleared in %d moves.\n", "通关所用步数为 %d 步。\n", "Vous avez terminé en %d coups.\n"), step_num);
+      printf(T("制作者がマップ%d をクリアするのにかけた手数は%d手 です\n", "The developer cleared Map %d in %d moves.\n", "制作者通关地图%d所用步数为%d步。\n", "Le développeur a terminé la Carte %d en %d coups.\n"), selected_map_num, shotest_path_return(selected_map_num - 1));
       getchar();
       getchar();
-      printf(T("クリアおめでとう!\n", "Congratulations!\n"));
+      printf(T("クリアおめでとう!\n", "Congratulations!\n", "恭喜通关！\n", "Félicitations !\n"));
       getchar();
 
       if(map_clear_holder[selected_map_num - 1] != 2)
@@ -1610,16 +1619,16 @@ int main()
       if(step_num <= shotest_path_return(selected_map_num - 1))
         map_clear_holder[selected_map_num - 1] = 2;
 
-      printf(T("===== 何をする？(数字を入力してください) =====\n\n", "===== What will you do? (enter a number) =====\n\n"));
-      printf(T(" リトライ : 1\n マップ選択 : 2\n 終了 : 3\n\n", " Retry : 1\n Map selection : 2\n Quit : 3\n\n"));
+      printf(T("===== 何をする？(数字を入力してください) =====\n\n", "===== What will you do? (enter a number) =====\n\n", "===== 你要做什么？（请输入数字）=====\n\n", "===== Que faites-vous ? (entrez un nombre) =====\n\n"));
+      printf(T(" リトライ : 1\n マップ選択 : 2\n 終了 : 3\n\n", " Retry : 1\n Map selection : 2\n Quit : 3\n\n", " 重试：1\n 地图选择：2\n 退出：3\n\n", " Réessayer : 1\n Sélection de carte : 2\n Quitter : 3\n\n"));
 
       while (!((strcmp(input,"1") == 0) || (strcmp(input,"2") == 0) || (strcmp(input,"3") == 0) ))
       {
-        printf(T(" 番号入力 : ", " Enter number: "));
+        printf(T(" 番号入力 : ", " Enter number: ", " 请输入编号：", " Entrez un numéro : "));
         scanf("%s", input);
 
         if((strcmp(input,"1") != 0) && (strcmp(input,"2") != 0) && (strcmp(input,"3") != 0))
-          printf(T("不正な値を入力しないでください", "Invalid input"));
+          printf(T("不正な値を入力しないでください", "Invalid input", "请勿输入无效值", "Entrée invalide"));
 
         printf("\n");
       }
@@ -1629,7 +1638,7 @@ int main()
         is_retrying = 1;
         is_result = 0;
 
-        printf(T("マップ%d をリトライします\n\n", "Retrying Map %d.\n\n"), selected_map_num);
+        printf(T("マップ%d をリトライします\n\n", "Retrying Map %d.\n\n", "重试地图%d。\n\n", "Nouvel essai pour la Carte %d.\n\n"), selected_map_num);
         getchar();
       }
       else if(strcmp(input,"2") == 0)
@@ -1637,7 +1646,7 @@ int main()
         is_result = 0;
         is_re_selecting_stage = 1;
 
-        printf(T("マップ選択画面に移ります\n\n", "Moving to map selection.\n\n"));
+        printf(T("マップ選択画面に移ります\n\n", "Moving to map selection.\n\n", "进入地图选择画面。\n\n", "Passage à la sélection de carte.\n\n"));
         getchar();
       }
       else if(strcmp(input,"3") == 0)
