@@ -1,24 +1,24 @@
 /* ================= READ ME ================= */
+/*
+  2次元配列a[Y][X]はYが行，Xが列を表す関係上，
+  このプログラム内では，(x,y)座標でなく，
+  （y,x）座標が用いられています．
+  お手数おかけしますがご容赦くださ
+  例）a[2][3] : x座標は3マス，y座標は2マスある
 
-  // 2次元配列a[Y][X]はYが行，Xが列を表す関係上，
-  // このプログラム内では，(x,y)座標でなく，
-  // （y,x）座標が用いられています．
-  // お手数おかけしますがご容赦ください．
+      {
+         {(0,0),(0,1),(0,2)},
+         {(1,0),(1,1),(1,2)}
+     
+  マップを追加する際は
+  MAX_MAP_NUMの値を増やす
+  selected_map_registerにマップを登録する
+  shotest_path_returnにクリアの手数を登録する
+  チュートリアルを充実していただいてもよろしいと思います
 
-  // 例）a[2][3] : x座標は3マス，y座標は2マスある
-  //
-  //     {
-  //        {(0,0),(0,1),(0,2)},
-  //        {(1,0),(1,1),(1,2)}
-  //     }
-
-  // マップを追加する際は
-  // MAX_MAP_NUMの値を増やす
-  // selected_map_registerにマップを登録する
-  // shotest_path_returnにクリアの手数を登録する
-  // チュートリアルを充実していただいてもよろしいと思います
-
-/* =========================================== */
+  また、コンパイル用にはcompile.shを用意しています。使うには、
+  chmod 755 ./compile.shをターミナルで実行して、実行権限を与えてください。
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,10 +51,10 @@
 #define MON2 42
 #define MON3 43
 
-#define LANG_JP 0
-#define LANG_EN 1
-#define LANG_CH 2  // 中国語を追加
-#define LANG_FR 3  // フランス語を追加
+#define LANG_JP 0  // 日本語
+#define LANG_EN 1  // 英語
+#define LANG_CH 2  // 中国語
+#define LANG_FR 3  // フランス語
 
 #define T(jp, en, ch, fr) (lang == LANG_JP ? (jp) : lang == LANG_EN ? (en) : lang == LANG_CH ? (ch) : (fr))
 
