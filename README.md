@@ -1,6 +1,7 @@
 # Skator
 
-こちらはhttps://github.com/Kinogas/skatorをコピーして改良したものです。
+こちらはhttps://github.com/Kinogas/skator
+をコピーして改良したものです。
 英語、中国語、フランス語機能とデータ保存機能を追加します。
 
  2次元配列a[Y][X]はYが行，Xが列を表す関係上，
