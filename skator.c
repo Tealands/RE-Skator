@@ -52,7 +52,7 @@
 #define MON3 43
 
 #define LANG_JP 0
-#define LANG_EN 1
+#define LANG_EN 1  // 英語を追加
 #define LANG_CH 2  // 中国語を追加
 #define LANG_FR 3  // フランス語を追加
 
