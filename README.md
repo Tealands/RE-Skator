@@ -41,11 +41,37 @@
 
 UTF-8を入力文字セットとして使用するため、明示してコンパイルしてください。
 
-```Shell
-gcc -finput-charset=UTF-8 skator.c
+### Windows
+
+Visual Studio の Developer Command Prompt または MinGW-w64/MSYS2 のターミナルで、次のコマンドを実行してください。
+
+```bat
+build-windows.bat
 ```
 
+Visual Studio を使う場合は、次のコマンドでもコンパイルできます。
+
+```bat
+cl /nologo /W4 /utf-8 /Fe:skator.exe skator.c
+```
+
+MinGW-w64/MSYS2 を使う場合は、次のコマンドを使用します。
+
+```sh
+gcc -Wall -Wextra -std=c11 -finput-charset=UTF-8 -o skator.exe skator.c
+```
+
+Windows ではプログラム起動時にコンソールを UTF-8 に設定します。Windows Terminal または Windows 10 以降のコンソールでは、マップの色表示にも対応します。
+
 ## 実行
+
+Windows:
+
+```bat
+skator.exe
+```
+
+Linux/macOS:
 
 ```Shell
 ./skator

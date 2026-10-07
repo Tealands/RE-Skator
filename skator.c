@@ -24,6 +24,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 #define X_SIZE 30
 #define Y_SIZE 30
@@ -65,10 +69,25 @@ void print_map(int map_grid[][X_SIZE], int *p_pos);
 // プレイヤーを動かすための関数
 void player_move(int selected_map_grid[][X_SIZE], int *p_pos, int *step_num, int *is_clear, int line_gap, int row_gap, int is_walking, int *key_num, int *is_having_sord, int lang);
 
+static void configure_terminal(void)
+{
+#ifdef _WIN32
+  HANDLE output_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+  DWORD console_mode;
+
+  SetConsoleOutputCP(CP_UTF8);
+  SetConsoleCP(CP_UTF8);
+
+  if (output_handle != INVALID_HANDLE_VALUE &&
+      GetConsoleMode(output_handle, &console_mode))
+  {
+    SetConsoleMode(output_handle, console_mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+  }
+#endif
+}
+
 void title_scene(int lang)
 {
-  char a;
-
   printf("\n");
   printf("==============\n\n");
   printf("    SKATER      \n\n");
@@ -181,7 +200,7 @@ void doing_tutorial(int lang)
               (strcmp(input,"s") == 0) ||
               (strcmp(input,"d") == 0) ))
       {
-        printf(T("どちらに進みますか？ : ", "Which direction? : ", "请选择方向：", "Quelle direction ? : "));  scanf("%s", input);
+        printf(T("どちらに進みますか？ : ", "Which direction? : ", "请选择方向：", "Quelle direction ? : "));  scanf("%63s", input);
       }
 
       {
@@ -1034,7 +1053,7 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
       is_selected_modoru = 0;
 
       printf(T(" 番号入力 : ", " Enter number: ", " 请输入编号：", " Entrez un numéro : "));
-      scanf("%s", input);
+      scanf("%63s", input);
 
       if((strcmp(input,"1") != 0) && (strcmp(input,"2") != 0) && (strcmp(input,"9") != 0))
         printf(T("不正な値を入力している場合じゃないです", "Invalid input", "请勿输入无效值", "Entrée invalide"));
@@ -1064,7 +1083,7 @@ int monster_battle(int *step_num, int monster_num, int is_having_sord, int p_hp,
       while (!((strcmp(skill_input,"1") == 0) || (strcmp(skill_input,"2") == 0) || (strcmp(skill_input,"3") == 0) || (strcmp(skill_input,"9") == 0) ))
       {
         printf(T(" 番号入力 : ", " Enter number: ", " 请输入编号：", " Entrez un numéro : "));
-        scanf("%s", skill_input);
+        scanf("%63s", skill_input);
 
         if((strcmp(skill_input,"1") != 0) && (strcmp(skill_input,"2") != 0) && (strcmp(skill_input,"3") == 0) && (strcmp(skill_input,"9") != 0))
           printf(T("不正な値を入力している場合じゃないです", "Invalid input", "请勿输入无效值", "Entrée invalide"));
@@ -1374,6 +1393,8 @@ int shotest_path_return(int map_num)
 
 int main()
 {
+  configure_terminal();
+
   int is_playing = 1;            // 0でプレイ終了
   int is_clear = 0;              // 1でゲームクリア
   int is_retrying = 0;           // 1でリトライ，ステージ選択がスキップされる
@@ -1398,7 +1419,7 @@ int main()
     while (!((strcmp(lang_input,"1") == 0) || (strcmp(lang_input,"2") == 0) || (strcmp(lang_input,"3") == 0) || (strcmp(lang_input,"4") == 0)))
     {
       printf("  Input / 入力 / 输入 / Entrée : ");
-      scanf("%s", lang_input);
+      scanf("%63s", lang_input);
       printf("\n");
     }
     if(strcmp(lang_input,"2") == 0)
@@ -1426,7 +1447,7 @@ int main()
       while (!((strcmp(input,"1") == 0) || (strcmp(input,"2") == 0) || (strcmp(input,"3") == 0) ))
       {
         printf(T(" 番号入力 : ", " Enter number: ", " 请输入编号：", " Entrez un numéro : "));
-        scanf("%s", input);
+        scanf("%63s", input);
 
         if((strcmp(input,"1") != 0) && (strcmp(input,"2") != 0) && (strcmp(input,"3") != 0))
           printf(T("不正な値を入力しないでください", "Invalid input", "请勿输入无效值", "Entrée invalide"));
@@ -1450,7 +1471,7 @@ int main()
           do
           {
             printf(T("遊びたいマップの番号を選択してください : ", "Select map number: ", "请选择要玩的地图编号：", "Sélectionnez le numéro de la carte : "));
-            scanf("%s", input);
+            scanf("%63s", input);
             printf("\n");
             selected_map_num = strtol(input, &error_pos, 10);
             if(*error_pos != '\0')
@@ -1484,7 +1505,7 @@ int main()
         do
         {
           printf(T("遊びたいマップの番号を選択してください : ", "Select map number: ", "请选择要玩的地图编号：", "Sélectionnez le numéro de la carte : "));
-          scanf("%s", input);
+          scanf("%63s", input);
           printf("\n");
           selected_map_num = strtol(input, &error_pos, 10);
           if(*error_pos != '\0')
@@ -1530,7 +1551,7 @@ int main()
               (strcmp(input,"r") == 0) ||
               (strcmp(input,"q") == 0)))
       {
-        printf(T("どちらに進みますか？ : ", "Which direction? : ", "请选择方向：", "Quelle direction ? : "));  scanf("%s", input);
+        printf(T("どちらに進みますか？ : ", "Which direction? : ", "请选择方向：", "Quelle direction ? : "));  scanf("%63s", input);
       }
 
       if(strcmp(input,"r") == 0) /* r入力 */
@@ -1543,7 +1564,7 @@ int main()
           printf(T("リトライしますか？\n", "Retry?\n", "重试吗？\n", "Réessayer ?\n"));
           printf(T("y : はい  ||  n : いいえ\n", "y : Yes  ||  n : No\n", "y : 是  ||  n : 否\n", "y : Oui  ||  n : Non\n"));
 
-          printf(T("入力 : ", "Input: ", "输入：", "Entrée : "));  scanf("%s", yes_no);
+          printf(T("入力 : ", "Input: ", "输入：", "Entrée : "));  scanf("%63s", yes_no);
 
           printf("\n");
 
@@ -1572,7 +1593,7 @@ int main()
           printf(T("タイトルに戻りますか？\n", "Return to title?\n", "返回标题吗？\n", "Retour au titre ?\n"));
           printf(T("y : はい  ||  n : いいえ\n", "y : Yes  ||  n : No\n", "y : 是  ||  n : 否\n", "y : Oui  ||  n : Non\n"));
 
-          printf(T("入力 : ", "Input: ", "输入：", "Entrée : "));  scanf("%s", yes_no);
+          printf(T("入力 : ", "Input: ", "输入：", "Entrée : "));  scanf("%63s", yes_no);
 
           printf("\n");
 
@@ -1643,7 +1664,7 @@ int main()
       while (!((strcmp(input,"1") == 0) || (strcmp(input,"2") == 0) || (strcmp(input,"3") == 0) ))
       {
         printf(T(" 番号入力 : ", " Enter number: ", " 请输入编号：", " Entrez un numéro : "));
-        scanf("%s", input);
+        scanf("%63s", input);
 
         if((strcmp(input,"1") != 0) && (strcmp(input,"2") != 0) && (strcmp(input,"3") != 0))
           printf(T("不正な値を入力しないでください", "Invalid input", "请勿输入无效值", "Entrée invalide"));
